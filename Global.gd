@@ -15,11 +15,12 @@ func _ready():
 func _resize():
 	VP = get_viewport().size
 
-func _unhandled_input(event):
-	if event.is_action_pressed("menu"):
-		get_tree().quit()
+#func _unhandled_input(event):
+#	if event.is_action_pressed("menu"):
+#		get_tree().quit()
 
 func _reset():
+	get_tree().paused = false
 	score = 0
 	time = 100
 	lives = 5
@@ -32,12 +33,16 @@ func update_score(s):
 
 func update_lives(l):
 	lives += l
+	if lives <= 0:
+		var _scene = get_tree().change_scene("res://UI/End_Game.tscn")
 	var hud = get_node_or_null("/root/Game/UI/HUD")
 	if hud != null:
 		hud.update_lives()
 
 func update_time(t):
 	time += t
+	if time <= 0:
+		var _scene = get_tree().change_scene("res://UI/End_Game.tscn")
 	var hud = get_node_or_null("/root/Game/UI/HUD")
 	if hud != null:
 		hud.update_time()
